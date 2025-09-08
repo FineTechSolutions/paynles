@@ -18,8 +18,10 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - name: 📦 Publish app
-      run: dotnet publish SmartSaverWeb.csproj --configuration Release --output ./publish
+    - name: 📦 Publish app to outer ./publish
+      run: |
+        mkdir $GITHUB_WORKSPACE/publish
+        dotnet publish SmartSaverWeb.csproj --configuration Release --output $GITHUB_WORKSPACE/publish
       working-directory: SmartSaverWeb
 
     - name: 🚀 Deploy to Azure using Publish Profile
