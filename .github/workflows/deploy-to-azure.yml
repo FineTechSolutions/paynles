@@ -20,20 +20,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # --- DEBUG STEP ---
-      # This step will list all files to help find the correct .csproj path.
-      - name: List all files in the repository
-        run: ls -R
-
       - name: Set up .NET 8
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
 
-      # This path is a placeholder and will cause the workflow to fail.
-      # We will fix it in the next step.
+      # Set the correct path to the .csproj file
       - name: Set Project Path
-        run: echo "PROJECT_PATH=./SmartSaver.Web/SmartSaver.Web.csproj" >> $GITHUB_ENV
+        run: echo "PROJECT_PATH=SmartSaverWeb/SmartSaverWeb.csproj" >> $GITHUB_ENV
 
       - name: Restore dependencies
         run: dotnet restore ${{ env.PROJECT_PATH }}
