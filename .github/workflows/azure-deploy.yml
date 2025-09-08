@@ -18,16 +18,15 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - name: 📦 Publish app to ./publish
+    - name: 📦 Publish SmartSaverWeb app
       run: |
-        dotnet publish SmartSaverWeb/SmartSaverWeb.csproj \
+        dotnet publish SmartSaverWeb.csproj \
           --configuration Release \
-          --output ./publish
+          --output ../publish
+      working-directory: SmartSaverWeb
 
-    - name: 🧪 Show contents of ./publish
-      run: |
-        echo "Contents of ./publish:"
-        ls -R ./publish
+    - name: 🧪 Show publish folder contents
+      run: ls -R ./publish
 
     - name: 🔐 Azure Login with OIDC
       uses: azure/login@v1
