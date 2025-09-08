@@ -65,7 +65,7 @@ namespace SmartSaverWeb.Controllers
             {
                 var clientIp = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
                 
-                var dataDir = Path.Combine(_env.ContentRootPath, "wwwroot", "App_Data");
+                var dataDir = Path.Combine(_env.ContentRootPath,  "FilesUploaded");
                 if (!Directory.Exists(dataDir))
                 {
                     Directory.CreateDirectory(dataDir);
@@ -122,7 +122,7 @@ namespace SmartSaverWeb.Controllers
             if (string.IsNullOrWhiteSpace(asin) || string.IsNullOrWhiteSpace(email))
                 return BadRequest("Missing asin or email");
 
-            var path = Path.Combine(_env.WebRootPath, "App_Data", "TrackedProducts.json");
+            var path = Path.Combine(_env.WebRootPath, "FilesUploaded", "TrackedProducts.json");
 
             if (!System.IO.File.Exists(path))
                 return NotFound("Data file not found");

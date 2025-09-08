@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="FilesUploaded\" />
     <Folder Include="Pitch\" />
     <Folder Include="wwwroot\App_Data\" />
   </ItemGroup>
@@ -20,15 +21,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="deals.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-    <Content Update="TrackedProducts.json">
+    <Content Update="FilesUploaded/deals.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Update="wwwroot/App_Data/TrackedProducts.json">
+    <Content Update="FilesUploaded/TrackedProducts.json">
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
