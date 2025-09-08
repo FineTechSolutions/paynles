@@ -8,6 +8,8 @@ publish/
 *.suo
 *.userosscache
 *.sln.docstates
+*.pubxml
+*.pubxml.user
 =======
 # Build output
 [Bb]in/
