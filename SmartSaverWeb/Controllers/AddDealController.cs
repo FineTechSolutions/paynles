@@ -31,7 +31,7 @@ namespace YourNamespace.Controllers
                 return BadRequest("Missing or invalid deal data.");
             }
 
-            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "deals.json");
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FilesUploaded", "deals.json");
             List<Deal> deals;
 
             if (System.IO.File.Exists(filePath))

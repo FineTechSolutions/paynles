@@ -100,7 +100,7 @@ namespace SmartSaverWeb.Controllers
         // =========================
         public IActionResult SampleDeals()
         {
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "deals.json");
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "FilesUploaded", "deals.json");
             List<Deal> deals = new();
 
             if (System.IO.File.Exists(filePath))
@@ -139,7 +139,7 @@ namespace SmartSaverWeb.Controllers
         [HttpPost]
         public IActionResult AdminDeals(Deal newDeal)
         {
-            var jsonPath = Path.Combine(Directory.GetCurrentDirectory(),  "deals.json");
+            var jsonPath = Path.Combine(Directory.GetCurrentDirectory(), "FilesUploaded",  "deals.json");
             List<Deal> deals = new();
 
             if (System.IO.File.Exists(jsonPath))
@@ -246,7 +246,7 @@ namespace SmartSaverWeb.Controllers
 
                 }
 
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "deals.json");
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "FilesUploaded", "deals.json");
                 System.IO.File.WriteAllText(filePath, JsonSerializer.Serialize(deals, new JsonSerializerOptions { WriteIndented = true }));
 
                 ViewBag.Message = $"✅ {deals.Count} lightning deal saved to deals.json.";
