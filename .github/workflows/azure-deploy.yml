@@ -1,0 +1,43 @@
+name: Deploy to Azure using Service Principal
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Checkout repo
+      uses: actions/checkout@v3
+
+    - name: 🛠️ Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: 📦 Publish app to ./publish
+      run: |
+        dotnet publish SmartSaverWeb/SmartSaverWeb.csproj \
+          --configuration Release \
+          --output ./publish
+
+    - name: 🧪 Show contents of ./publish
+      run: |
+        echo "Contents of ./publish:"
+        ls -R ./publish
+
+    - name: 🔐 Azure Login with OIDC
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: 🚀 Deploy to Azure Web App using CLI
+      run: |
+        az webapp deploy \
+          --resource-group paynles-core-rg \
+          --name paynlesweb \
+          --src-path ./publish \
+          --type zip

@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - Paynles</title>
+    @RenderSection("Styles", required: false)
+    @* Meta Description & OG Description *@
+    @if (ViewData["MetaDescription"] != null)
+    {
+        <meta name="description" content="@ViewData["MetaDescription"]" />
+        <meta property="og:description" content="@ViewData["MetaDescription"]" />
+    }
+
+    @* OG Title *@
+    <meta property="og:title" content="@ViewData["Title"] - Paynles" />
+
+    @* OG Image (default if not set per page) *@
+    <meta property="og:image" content="@(ViewData["OgImage"] ?? "https://paynles.com/img/social-preview.jpg")" />
+
+    @* Canonical URL & OG URL *@
+    @if (ViewData["Canonical"] != null)
+    {
+        <link rel="canonical" href="@ViewData["Canonical"]" />
+        <meta property="og:url" content="@ViewData["Canonical"]" />
+    }
+    else
+    {
+        <meta property="og:url" content="https://paynles.com/" />
+    }
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-3 sticky-top shadow-sm">
+            <a class="navbar-brand fw-bold text-white" href="@Url.Action("Index", "Home")">Paynles</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                    aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="@Url.Action("HowItWorks", "Home")">How It Works</a></li>
+                    <li class="nav-item"><a class="nav-link" href="@Url.Action("SampleDeals", "Home")">Sample Deals</a></li>
+                    <li class="nav-item"><a class="nav-link" href="@Url.Action("About", "Home")">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="@Url.Action("Disclosure", "Home")">Affiliate Disclosure</a></li>
+                    <li class="nav-item"><a class="nav-link" href="@Url.Action("Privacy", "Home")">Privacy Policy</a></li>
+                    <li class="nav-item"><a class="nav-link" href="@Url.Action("Contact", "Home")">Contact</a></li>
+                </ul>
+                @* Login link temporarily removed *@
+            </div>
+        </nav>
+    </header>
+
+    <div class="container mt-4">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer mt-auto py-3 bg-light border-top">
+        <div class="container text-center small text-muted">
+            &copy; @DateTime.Now.Year Paynles — A project by
+            <a href="https://www.linkedin.com/in/hershey-herskowitz-b607ba4b/" target="_blank" rel="noopener">
+                Fine Tech Solutions
+            </a>, led by Hershey Herskowitz, delivering e-commerce logistics and systems innovation for over 20 years.
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,43 @@
+<<<<<<< HEAD
+# Ignore build + IDE stuff
+.vs/
+bin/
+obj/
+publish/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+=======
+# Build output
+[Bb]in/
+[Oo]bj/
+*.user
+*.rsuser
+*.suo
+*.cache
+*.log
+
+# Visual Studio
+.vs/
+
+# Publish output
+**/publish/
+**/PublishProfiles/
+
+# Secrets (never commit)
+**/appsettings.*.Development.json
+**/appsettings.Local.json
+
+# Azure publish artifacts
+*.PublishSettings
+
+# Node modules (if you add frontend packages later)
+node_modules/
+
+# Backups and zips
+*.zip
+
+# Prevent App_Data under wwwroot from being tracked
+SmartSaverWeb/SmartSaverWeb/wwwroot/App_Data/
+>>>>>>> c1a61491f0a0f73c079625c39fe5693e05c715a3

@@ -1,0 +1,81 @@
+﻿@model SmartSaverWeb.Models.Deal
+@{
+    ViewData["Title"] = "Admin Deal Entry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container py-5" style="max-width: 700px;">
+    <h2 class="mb-4">🛠️ Add a New Deal</h2>
+
+    @if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <div class="alert alert-success">@ViewBag.Message</div>
+    }
+
+    <form asp-action="AdminDeals" method="post">
+        <div class="mb-3">
+            <label asp-for="Asin" class="form-label">ASIN</label>
+            <input asp-for="Asin" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Title" class="form-label">Title (max 50 characters)</label>
+            <input asp-for="Title" class="form-control" maxlength="50" required />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="CurrentPrice" class="form-label">Original Price</label>
+            <input asp-for="CurrentPrice" type="number" step="0.01" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="DealPrice" class="form-label">Deal Price</label>
+            <input asp-for="DealPrice" type="number" step="0.01" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="DomainId" class="form-label">Domain</label>
+            <select asp-for="DomainId" class="form-select">
+                <option value="1">Amazon US</option>
+                <option value="3">Amazon UK</option>
+                <option value="4">Amazon DE</option>
+                <option value="5">Amazon FR</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Image" class="form-label">Image URL</label>
+            <input asp-for="Image" class="form-control" />
+        </div>
+
+        <div class="form-check mb-3">
+            <input asp-for="IsPrimeEligible" class="form-check-input" />
+            <label asp-for="IsPrimeEligible" class="form-check-label">Prime Eligible</label>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Rating" class="form-label">Rating</label>
+            <input asp-for="Rating" type="number" step="0.1" min="0" max="5" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="TotalReviews" class="form-label">Total Reviews</label>
+            <input asp-for="TotalReviews" type="number" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Save Deal</button>
+    </form>
+
+    <hr class="my-5" />
+
+    <form method="post" asp-action="ImportKeepaDeals">
+        <button type="submit" class="btn btn-outline-primary w-100 mb-3">
+            🔃 Pull 10 Lightning Deals from Keepa
+        </button>
+    </form>
+
+    <form method="post" asp-action="CheckKeepaTokens">
+        <button type="submit" class="btn btn-outline-info w-100">
+            📊 Check Keepa Token Balance
+        </button>
+    </form>
+</div>
