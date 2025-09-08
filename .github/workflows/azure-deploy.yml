@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 📥 Checkout repo
+    - name: 📥 Checkout code
       uses: actions/checkout@v3
 
     - name: 🛠️ Setup .NET
@@ -18,22 +18,19 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - name: 📦 Publish SmartSaverWeb app
+    - name: 📦 Build and publish to ./publish
       run: |
-        dotnet publish SmartSaverWeb.csproj \
-          --configuration Release \
-          --output ../publish
-      working-directory: SmartSaverWeb
+        dotnet publish SmartSaverWeb/SmartSaverWeb.csproj --configuration Release --output ./publish
 
-    - name: 🧪 Show publish folder contents
-      run: ls -R ./publish
+    - name: 🧪 List contents of publish folder
+      run: ls -la ./publish
 
-    - name: 🔐 Azure Login with OIDC
+    - name: 🔐 Azure Login with Service Principal
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: 🚀 Deploy to Azure Web App using CLI
+    - name: 🚀 Deploy to Azure
       run: |
         az webapp deploy \
           --resource-group paynles-core-rg \
