@@ -25,7 +25,7 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      # Set the correct path based on your local file structure
+      # Set the correct path based on your repository structure
       - name: Set Project Path
         run: echo "PROJECT_PATH=SmartSaverWeb/SmartSaverWeb.csproj" >> $GITHUB_ENV
 
