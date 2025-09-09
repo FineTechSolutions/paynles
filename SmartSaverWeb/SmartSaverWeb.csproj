@@ -5,13 +5,18 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+  <ItemGroup>
+    <!-- Tell MSBuild both files are real -->
+    <Content Update="FilesUploaded\TrackedProducts.json" />
+    <Content Update="FilesUploaded\TrackedLogs.txt" />
+  </ItemGroup>
   <Target Name="ExcludeFilesUploadedFromPublish" BeforeTargets="CopyFilesToPublishDirectory">
     <ItemGroup>
       <ExcludeFromPublish Include="FilesUploaded\TrackedProducts.json" />
       <ExcludeFromPublish Include="FilesUploaded\TrackedLogs.txt" />
     </ItemGroup>
   </Target>
-  <ItemGroup>
+    <ItemGroup>
     <None Include="wwwroot\pitch.html" />
   </ItemGroup>
 
