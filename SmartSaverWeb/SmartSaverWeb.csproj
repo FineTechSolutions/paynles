@@ -5,16 +5,15 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-<Target Name="ExcludeFilesUploadedFromPublish" BeforeTargets="CopyFilesToPublishDirectory">
-  <ItemGroup>
-    <Content Remove="FilesUploaded\**" />
-    <None Remove="FilesUploaded\**" />
-    <Compile Remove="FilesUploaded\**" />
-    <EmbeddedResource Remove="FilesUploaded\**" />
-    <ExcludeFromPublish Include="FilesUploaded\**" />
-  </ItemGroup>
-</Target>
-
+  <Target Name="ExcludeFromPublish" BeforeTargets="CopyFilesToPublishDirectory">
+    <ItemGroup>
+      <Content Remove="FilesUploaded\**" />
+      <None Remove="FilesUploaded\**" />
+      <Compile Remove="FilesUploaded\**" />
+      <EmbeddedResource Remove="FilesUploaded\**" />
+      <ExcludeFromPublish Include="FilesUploaded\**" />
+    </ItemGroup>
+  </Target>
   <ItemGroup>
     <!-- Tell MSBuild both files are real -->
     <Content Update="FilesUploaded\TrackedProducts.json" />
