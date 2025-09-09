@@ -14,9 +14,6 @@
       <ExcludeFromPublish Include="FilesUploaded\**" />
     </ItemGroup>
   </Target>
-  <ItemGroup>
-    <None Include="wwwroot\pitch.html" />
-  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Pitch\" />
