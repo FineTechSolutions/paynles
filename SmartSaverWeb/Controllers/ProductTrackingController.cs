@@ -303,7 +303,17 @@ namespace SmartSaverWeb.Controllers
                     Directory.CreateDirectory(logFolder);
 
                 var jsonPath = Path.Combine(logFolder, "TrackedProducts.json");
-                var textLogPath = Path.Combine(logFolder, "TrackedLog.txt");
+                string textLogPath;
+                var home = Environment.GetEnvironmentVariable("HOME");
+
+                if (!string.IsNullOrEmpty(home))
+                {
+                    textLogPath = Path.Combine(home, "data", "FilesUploaded", "TrackedLogs.txt");
+                }
+                else
+                {
+                    textLogPath = Path.Combine("C:\\Users\\Hershey\\Documents\\PaynLes\\FilesUploaded", "TrackedLogs.txt");
+                }
 
                 var allProducts = System.IO.File.Exists(jsonPath)
                     ? JsonSerializer.Deserialize<List<TrackedProduct>>(await System.IO.File.ReadAllTextAsync(jsonPath)) ?? new()
