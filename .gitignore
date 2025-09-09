@@ -33,3 +33,6 @@ SmartSaverWeb/SmartSaverWeb/wwwroot/App_Data/
 # 🔒 Ignore local uploads folder completely
 FilesUploaded/*
 !FilesUploaded/.gitkeep
+/SmartSaverWeb/FilesUploaded/TrackedLogs.txt
+/SmartSaverWeb/FilesUploaded/deals.json
+/SmartSaverWeb/FilesUploaded/TrackedProducts.json
