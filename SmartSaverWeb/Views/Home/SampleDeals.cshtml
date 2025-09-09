@@ -78,10 +78,7 @@
                         <div class="d-flex align-items-center text-muted mb-2" style="font-size: 0.85rem;">
                         @if (item.isPrimeEarlyAccess)
                             {
-                                <img src="/img/primecheck.png"
-                                     alt="Prime Early Access"
-                                     title="Prime Early Access"
-                                     style="height: 26px; margin-right: 8px; background: #fff; padding: 2px 4px; border-radius: 4px; box-shadow: 0 0 2px rgba(0,0,0,0.2); display: inline-block; vertical-align: middle;" />
+                                <span class="text-muted small">Prime Early Access</span>
                             }
                             @displayRating ★ | @item.TotalReviews.ToString("N0") reviews
                         </div>
@@ -89,15 +86,16 @@
                         <a href="@href"
                            target="_blank"
                            rel="sponsored nofollow noopener"
-                           class="btn btn-primary mt-auto w-100">
+                           class="btn-affiliate mt-auto w-100">
                             View Deal
                         </a>
+
                     </div>
 
                     @if (item.DomainId == 1)
                     {
                         <div class="position-absolute top-0 end-0 p-2">
-                            <img src="/img/Amazonlogo.svg" alt="Amazon US" style="height: 12px; opacity: 0.8;" />
+                            <span class="text-muted small">Sold by Amazon</span>
                         </div>
                     }
                 </div>

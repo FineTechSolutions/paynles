@@ -20,3 +20,20 @@ html {
 body {
   margin-bottom: 60px;
 }
+.btn-affiliate {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    color: #333;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s ease-in-out;
+}
+
+    .btn-affiliate:hover {
+        background-color: #e2e6ea;
+        color: #000;
+    }
