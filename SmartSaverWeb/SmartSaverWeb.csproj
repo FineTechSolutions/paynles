@@ -33,4 +33,10 @@
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="8.0.8" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Update="FilesUploaded\**\*">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
 </Project>
