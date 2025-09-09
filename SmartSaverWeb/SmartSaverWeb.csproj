@@ -5,8 +5,13 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
   <Target Name="ExcludeFilesUploadedFromPublish" BeforeTargets="CopyFilesToPublishDirectory">
     <ItemGroup>
+      <Content Remove="FilesUploaded\**" />
+      <None Remove="FilesUploaded\**" />
+      <Compile Remove="FilesUploaded\**" />
+      <EmbeddedResource Remove="FilesUploaded\**" />
       <ExcludeFromPublish Include="FilesUploaded\**" />
     </ItemGroup>
   </Target>
@@ -28,5 +33,9 @@
 
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="8.0.8" />
+    <PackageReference Include="Azure.Identity" Version="1.12.0" />
+    <PackageReference Include="Keepa" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 </Project>
