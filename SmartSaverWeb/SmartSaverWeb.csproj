@@ -5,7 +5,12 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
+  <Target Name="ExcludeFilesUploadedFromPublish" BeforeTargets="CopyFilesToPublishDirectory">
+    <ItemGroup>
+      <ExcludeFromPublish Include="FilesUploaded\TrackedProducts.json" />
+      <ExcludeFromPublish Include="FilesUploaded\TrackedLogs.txt" />
+    </ItemGroup>
+  </Target>
   <ItemGroup>
     <None Include="wwwroot\pitch.html" />
   </ItemGroup>
