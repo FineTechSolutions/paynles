@@ -34,7 +34,17 @@ namespace SmartSaverWeb.Pages
         {
             _env = env;
             _logger = logger;
-            _logFilePath = Path.Combine(_env.ContentRootPath, "FilesUploaded", "TrackedProducts.json");
+            var home = Environment.GetEnvironmentVariable("HOME");
+
+            if (!string.IsNullOrEmpty(home))
+            {
+                _logFilePath = Path.Combine(home, "data", "FilesUploaded", "TrackedProducts.json");
+            }
+            else
+            {
+                _logFilePath = Path.Combine("C:\\Users\\Hershey\\Documents\\PaynLes\\FilesUploaded", "TrackedProducts.json");
+            }
+
         }
 
         public async Task OnGetAsync()
@@ -70,7 +80,18 @@ namespace SmartSaverWeb.Pages
                 return BadRequest("Missing email or asin");
             }
 
-            var path = Path.Combine(_env.WebRootPath, "FilesUploaded", "TrackedProducts.json");
+            string path;
+            var home = Environment.GetEnvironmentVariable("HOME");
+
+            if (!string.IsNullOrEmpty(home))
+            {
+                path = Path.Combine(home, "data", "FilesUploaded", "TrackedProducts.json");
+            }
+            else
+            {
+                path = Path.Combine("C:\\Users\\Hershey\\LocalData\\PaynlesTest\\FilesUploaded", "TrackedProducts.json");
+            }
+
 
             if (!System.IO.File.Exists(path))
             {

@@ -64,15 +64,19 @@ namespace SmartSaverWeb.Controllers
             try
             {
                 var clientIp = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
-                
-                var dataDir = Path.Combine(_env.ContentRootPath,  "FilesUploaded");
-                if (!Directory.Exists(dataDir))
-                {
-                    Directory.CreateDirectory(dataDir);
-                }
-                var logFilePath = Path.Combine(dataDir, "TrackedProducts.json");
 
-                List<TrackedProduct> allProducts;
+                string logFilePath;
+                var home = Environment.GetEnvironmentVariable("HOME");
+
+                if (!string.IsNullOrEmpty(home))
+                {
+                    logFilePath = Path.Combine(home, "data", "FilesUploaded", "TrackedProducts.json");
+                }
+                else
+                {
+                    logFilePath = Path.Combine("C:\\Users\\Hershey\\Documents\\PaynLes\\FilesUploaded", "TrackedProducts.json");
+                }
+                                                List<TrackedProduct> allProducts;
                 if (System.IO.File.Exists(logFilePath))
                 {
                     var json = await System.IO.File.ReadAllTextAsync(logFilePath);
@@ -122,7 +126,18 @@ namespace SmartSaverWeb.Controllers
             if (string.IsNullOrWhiteSpace(asin) || string.IsNullOrWhiteSpace(email))
                 return BadRequest("Missing asin or email");
 
-            var path = Path.Combine(_env.WebRootPath, "FilesUploaded", "TrackedProducts.json");
+            string path;
+            var home = Environment.GetEnvironmentVariable("HOME");
+
+            if (!string.IsNullOrEmpty(home))
+            {
+                path = Path.Combine(home, "data", "FilesUploaded", "TrackedProducts.json");
+            }
+            else
+            {
+                path = Path.Combine("C:\\Users\\Hershey\\Documents\\PaynLes\\FilesUploaded", "TrackedProducts.json");
+            }
+
 
             if (!System.IO.File.Exists(path))
                 return NotFound("Data file not found");
@@ -148,7 +163,18 @@ namespace SmartSaverWeb.Controllers
             }
 
             var clientIp = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
-            var logFilePath = Path.Combine(_env.ContentRootPath, "TrackedProducts.json");
+            string logFilePath;
+            var home = Environment.GetEnvironmentVariable("HOME");
+
+            if (!string.IsNullOrEmpty(home))
+            {
+                logFilePath = Path.Combine(home, "data", "FilesUploaded", "TrackedProducts.json");
+            }
+            else
+            {
+                logFilePath = Path.Combine("C:\\Users\\Hershey\\Documents\\PaynLes\\FilesUploaded", "TrackedProducts.json");
+            }
+
 
             // Read existing records from the JSON file
             List<TrackedProduct> allProducts;

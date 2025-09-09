@@ -15,27 +15,15 @@
     </ItemGroup>
   </Target>
   <ItemGroup>
-    <!-- Tell MSBuild both files are real -->
-    <Content Update="FilesUploaded\TrackedProducts.json" />
-    <Content Update="FilesUploaded\TrackedLogs.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="wwwroot\pitch.html" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="FilesUploaded\" />
     <Folder Include="Pitch\" />
     <Folder Include="wwwroot\App_Data\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="8.0.8" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="FilesUploaded\**\*">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-    </Content>
   </ItemGroup>
 </Project>

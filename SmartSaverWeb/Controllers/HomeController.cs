@@ -100,7 +100,17 @@ namespace SmartSaverWeb.Controllers
         // =========================
         public IActionResult SampleDeals()
         {
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "FilesUploaded", "deals.json");
+            string filePath;
+            var home = Environment.GetEnvironmentVariable("HOME");
+            if (!string.IsNullOrEmpty(home))
+            {
+                filePath = Path.Combine(home, "data", "FilesUploaded", "deals.json");
+            }
+            else
+            {
+                filePath = Path.Combine("C:\\Users\\Hershey\\Documents\\PaynLes\\FilesUploaded", "deals.json");
+            }
+
             List<Deal> deals = new();
 
             if (System.IO.File.Exists(filePath))
@@ -139,7 +149,17 @@ namespace SmartSaverWeb.Controllers
         [HttpPost]
         public IActionResult AdminDeals(Deal newDeal)
         {
-            var jsonPath = Path.Combine(Directory.GetCurrentDirectory(), "FilesUploaded",  "deals.json");
+            string jsonPath;
+            var home = Environment.GetEnvironmentVariable("HOME");
+            if (!string.IsNullOrEmpty(home))
+            {
+                jsonPath = Path.Combine(home, "data", "FilesUploaded", "deals.json");
+            }
+            else
+            {
+                jsonPath = Path.Combine("C:\\Users\\Hershey\\Documents\\PaynLes\\FilesUploaded", "deals.json");
+            }
+
             List<Deal> deals = new();
 
             if (System.IO.File.Exists(jsonPath))
@@ -246,7 +266,17 @@ namespace SmartSaverWeb.Controllers
 
                 }
 
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "FilesUploaded", "deals.json");
+                string filePath;
+                var home = Environment.GetEnvironmentVariable("HOME");
+                if (!string.IsNullOrEmpty(home))
+                {
+                    filePath = Path.Combine(home, "data", "FilesUploaded", "deals.json");
+                }
+                else
+                {
+                    filePath = Path.Combine("C:\\Users\\Hershey\\Documents\\PaynLes\\FilesUploaded", "deals.json");
+                }
+
                 System.IO.File.WriteAllText(filePath, JsonSerializer.Serialize(deals, new JsonSerializerOptions { WriteIndented = true }));
 
                 ViewBag.Message = $"✅ {deals.Count} lightning deal saved to deals.json.";
