@@ -52,7 +52,7 @@ namespace YourNamespace.Controllers
                 Q(request.Url)
             );
 
-            var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TrackedLogs.txt");
+            var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FilesUploaded", "TrackedLogs.txt");
 
             // Create file with header once
             if (!System.IO.File.Exists(logPath))
