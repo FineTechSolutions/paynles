@@ -205,8 +205,21 @@ namespace SmartSaverWeb.Controllers
                 using var reader = new StreamReader(gzip);
                 var json = await reader.ReadToEndAsync();
 
-                string logPath = @"C:\fts\keepa_response_debug.json";
+                string logPath;
+                var homeDir = Environment.GetEnvironmentVariable("HOME");
+                if (!string.IsNullOrEmpty(homeDir))
+                {
+                    // Running in Azure
+                    logPath = Path.Combine(homeDir, "data", "FilesUploaded", "keepa_response_debug.json");
+                }
+                else
+                {
+                    // Local dev fallback
+                    logPath = Path.Combine("C:\\Users\\Hershey\\Documents\\PaynLes\\FilesUploaded", "keepa_response_debug.json");
+                }
+
                 System.IO.File.WriteAllText(logPath, json);
+
                 var doc = JsonDocument.Parse(json);
 
                 if (!doc.RootElement.TryGetProperty("products", out var products))
@@ -316,6 +329,73 @@ namespace SmartSaverWeb.Controllers
 
             return View("AdminDeals");
         }
+
+        [HttpPost]
+        public IActionResult ExtractKeepaDeals()
+        {
+            // 🔍 Define inbox and output paths based on environment
+            string inboxFolder, outputFilePath;
+            var home = Environment.GetEnvironmentVariable("HOME");
+
+            if (!string.IsNullOrEmpty(home))
+            {
+                inboxFolder = Path.Combine(home, "data", "FilesUploaded");
+                outputFilePath = Path.Combine(home, "data", "FilesUploaded", "deals.json");
+            }
+            else
+            {
+                inboxFolder = Path.Combine("C:\\Users\\Hershey\\Documents\\PaynLes\\FilesUploaded");
+                outputFilePath = Path.Combine("C:\\Users\\Hershey\\Documents\\PaynLes\\FilesUploaded", "deals.json");
+            }
+
+            string targetFile = Path.Combine(inboxFolder, "keepa_response_debug.json");
+            var allDeals = new List<JsonNode>();
+
+            if (!System.IO.File.Exists(targetFile))
+                return Content("❌ File not found: " + targetFile);
+
+            try
+            {
+                var content = System.IO.File.ReadAllText(targetFile);
+                using var doc = JsonDocument.Parse(content);
+
+                if (!doc.RootElement.TryGetProperty("lightningDeals", out var dealsElement))
+                    return Content("⚠ No 'lightningDeals' array found in the file.");
+
+                foreach (var deal in dealsElement.EnumerateArray())
+                {
+                    var enriched = new JsonObject();
+
+                    foreach (var prop in deal.EnumerateObject())
+                    {
+                        enriched[prop.Name] = JsonNode.Parse(prop.Value.GetRawText());
+                    }
+
+                    allDeals.Add(enriched);
+                }
+
+                var outputFolder = Path.GetDirectoryName(outputFilePath);
+                if (!Directory.Exists(outputFolder))
+                    Directory.CreateDirectory(outputFolder);
+
+                var json = JsonSerializer.Serialize(allDeals, new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                });
+
+                System.IO.File.WriteAllText(outputFilePath, json);
+
+                return Content($"✅ Extracted {allDeals.Count} deals from 'keepa_response_debug.json' to: {outputFilePath}");
+            }
+            catch (Exception ex)
+            {
+                return Content("❌ Failed to process file: " + ex.Message);
+            }
+        }
+
+
+
+
 
     }
 }
