@@ -71,3 +71,29 @@
         </div>
     }
 </div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.delete-btn').click(function (event) {
+                const email = $(this).data('email');
+                const asin = $(this).data('asin');
+
+                if (!confirm("Are you sure you want to delete this item?")) return;
+
+                $.ajax({
+                    url: '/api/products/delete',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ email: email, asin: asin }),
+                    success: function () {
+                        $(event.target).closest('.product-card').fadeOut();
+                    },
+                    error: function (xhr) {
+                        alert('❌ Failed to delete: ' + xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+}

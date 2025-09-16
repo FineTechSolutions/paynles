@@ -1,62 +1,65 @@
 ﻿@model SmartSaverWeb.Models.Product
 
-@{
-    const string Tag = "paynles-20";
-    string Amz(string asin) => string.IsNullOrWhiteSpace(asin) ? "#" : $"https://www.amazon.com/dp/{asin}?tag={Tag}";
-    string Img(string? u) => string.IsNullOrWhiteSpace(u) ? Url.Content("~/img/placeholder.jpg") : u;
-    var email = ViewContext.HttpContext.Request.Query["email"];
-}
-
 <div class="col">
-    <div class="card product-card h-100 shadow-sm position-relative">
-        <form method="post" asp-page="/MyProducts" asp-page-handler="delete">
-            @Html.AntiForgeryToken() <!-- ✅ Add this! -->
-            <input type="hidden" name="email" value="@ViewContext.HttpContext.Request.Query["email"]" />
-            <input type="hidden" name="asin" value="@Model.Asin" />
-            <button type="submit" class="btn btn-sm btn-danger" title="Remove this item">
-                <i class="fas fa-trash-alt"></i>
+    <form method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="email" value="@Model.Email" />
+        <input type="hidden" name="asin" value="@Model.Asin" />
+
+        <div class="card product-card h-100 shadow-sm position-relative">
+            <button class="btn btn-danger btn-sm rounded-circle"
+                    type="submit"
+                    formmethod="post"
+                    formaction="@Url.Page("/MyProducts", pageHandler: "Delete")"
+                    style="position: absolute; top: 8px; right: 8px; z-index: 1000; width: 32px; height: 32px; padding: 0;"
+                    onclick="event.stopPropagation();">
+                <i class="fas fa-trash"></i>
             </button>
-        </form>
 
-        <!-- Image -->
-        <a class="product-thumb d-block bg-light rounded-top"
-           href="@Amz(Model.Asin)"
-           target="_blank"
-           rel="nofollow sponsored noopener"
-           aria-label="View on Amazon">
-            <div class="ratio ratio-1x1 d-flex align-items-center justify-content-center">
-                <img class="product-image p-2"
-                     src="@Img(Model.ImageUrl)"
-                     alt="@Html.Encode(Model.Title)"
-                     loading="lazy"
-                     style="max-height: 180px; object-fit: contain;" />
-            </div>
-        </a>
 
-        <!-- Body -->
-        <div class="card-body d-flex flex-column">
-            <h6 class="card-title product-title mb-2 text-truncate" title="@Model.Title">
-                <a href="@Amz(Model.Asin)" target="_blank" rel="nofollow sponsored noopener" class="text-decoration-none text-dark">
-                    @Model.Title
-                </a>
-            </h6>
-
-            <div class="d-flex justify-content-between align-items-center mt-auto">
-                <div class="price fw-bold text-success">
-                    @(Model.PriceSeen.HasValue ? $"${Model.PriceSeen:0.00}" : "—")
+            <!-- Image -->
+            <a class="product-thumb d-block bg-light rounded-top"
+               href="@($"https://www.amazon.com/dp/{Model.Asin}?tag=paynles-20")"
+               target="_blank"
+               rel="nofollow sponsored noopener"
+               aria-label="View on Amazon">
+                <div class="ratio ratio-1x1 d-flex align-items-center justify-content-center">
+                    <img class="product-image p-2"
+                         src="@(!string.IsNullOrWhiteSpace(Model.ImageUrl) ? Model.ImageUrl : Url.Content("~/img/placeholder.jpg"))"
+                         alt="@Html.Encode(Model.Title)"
+                         loading="lazy"
+                         style="max-height: 180px; object-fit: contain;" />
                 </div>
+            </a>
 
-                <a class="btn btn-sm btn-primary"
-                   href="@Amz(Model.Asin)"
-                   target="_blank"
-                   rel="nofollow sponsored noopener">
-                    <i class="fas fa-external-link-alt"></i> View
-                </a>
+            <!-- Body -->
+            <div class="card-body d-flex flex-column">
+                <h6 class="card-title product-title mb-2 text-truncate" title="@Model.Title">
+                    <a href="@($"https://www.amazon.com/dp/{Model.Asin}?tag=paynles-20")"
+                       target="_blank"
+                       rel="nofollow sponsored noopener"
+                       class="text-decoration-none text-dark">
+                        @Model.Title
+                    </a>
+                </h6>
+
+                <div class="d-flex justify-content-between align-items-center mt-auto">
+                    <div class="price fw-bold text-success">
+                        @(Model.PriceSeen.HasValue ? $"${Model.PriceSeen:0.00}" : "—")
+                    </div>
+
+                    <a class="btn btn-sm btn-primary"
+                       href="@($"https://www.amazon.com/dp/{Model.Asin}?tag=paynles-20")"
+                       target="_blank"
+                       rel="nofollow sponsored noopener">
+                        <i class="fas fa-external-link-alt"></i> View
+                    </a>
+                </div>
+            </div>
+
+            <div class="card-footer text-muted small">
+                Seen: @(Model.TimestampUtc.ToLocalTime().ToString("yyyy-MM-dd HH:mm"))
             </div>
         </div>
-
-        <div class="card-footer text-muted small">
-            Seen: @Model.TimestampUtc.ToLocalTime().ToString("yyyy-MM-dd HH:mm")
-        </div>
-    </div>
+    </form>
 </div>

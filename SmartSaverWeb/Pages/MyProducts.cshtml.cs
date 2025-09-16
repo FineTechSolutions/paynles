@@ -64,17 +64,13 @@ namespace SmartSaverWeb.Pages
         }
 
 
-        public async Task<IActionResult> OnPostDeleteAsync()
+        public async Task<IActionResult> OnPostDeleteAsync(string email, string asin)
         {
-            System.Diagnostics.Debug.WriteLine("DELETE HANDLER CALLED"); // ✅ Step 1: prove handler run
-            if (!ModelState.IsValid)
-            {
-                System.Diagnostics.Debug.WriteLine("❌ Model state is invalid");
-                return BadRequest("Invalid form data");
-            }
+            System.Diagnostics.Debug.WriteLine("DELETE HANDLER CALLED");
 
-            // Optional: log the values
-            System.Diagnostics.Debug.WriteLine($"Email = {Email}, Asin = {Asin}");
+            Email = email?.Trim();
+            Asin = asin?.Trim();
+
             if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Asin))
             {
                 return BadRequest("Missing email or asin");
@@ -89,9 +85,8 @@ namespace SmartSaverWeb.Pages
             }
             else
             {
-                path = Path.Combine("C:\\Users\\Hershey\\LocalData\\PaynlesTest\\FilesUploaded", "TrackedProducts.json");
+                path = Path.Combine("C:\\Users\\Hershey\\Documents\\PaynLes\\FilesUploaded", "TrackedProducts.json");
             }
-
 
             if (!System.IO.File.Exists(path))
             {
@@ -101,7 +96,6 @@ namespace SmartSaverWeb.Pages
             var json = await System.IO.File.ReadAllTextAsync(path);
             var list = JsonSerializer.Deserialize<List<Product>>(json) ?? new();
 
-            // ✅ Remove only the first matching entry for this email + asin
             var target = list.FirstOrDefault(p =>
                 p.Email.Equals(Email, StringComparison.OrdinalIgnoreCase) &&
                 p.Asin.Equals(Asin, StringComparison.OrdinalIgnoreCase));
