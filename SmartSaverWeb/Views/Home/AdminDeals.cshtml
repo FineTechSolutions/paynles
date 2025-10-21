@@ -5,7 +5,22 @@
 }
 <div class="container py-5" style="max-width: 700px;">
     <h2 class="mb-4">🛠️ Add a New Deal</h2>
+    <form method="post" asp-action="ImportKeepaDeals">
+        <button type="submit" class="btn btn-outline-primary w-100 mb-3">
+            🔃 Pull 10 Lightning Deals from Keepa
+        </button>
+    </form>
 
+    <form method="post" asp-action="CheckKeepaTokens">
+        <button type="submit" class="btn btn-outline-info w-100">
+            📊 Check Keepa Token Balance
+        </button>
+    </form>
+    <form asp-controller="Home" asp-action="ExtractKeepaDeals" method="post">
+        <button type="submit" class="btn btn-outline-success">
+            📦 Extract & Generate deals.json
+        </button>
+    </form>
     @if (!string.IsNullOrEmpty(ViewBag.Message))
     {
         <div class="alert alert-success">@ViewBag.Message</div>
@@ -67,21 +82,6 @@
 
     <hr class="my-5" />
 
-    <form method="post" asp-action="ImportKeepaDeals">
-        <button type="submit" class="btn btn-outline-primary w-100 mb-3">
-            🔃 Pull 10 Lightning Deals from Keepa
-        </button>
-    </form>
 
-    <form method="post" asp-action="CheckKeepaTokens">
-        <button type="submit" class="btn btn-outline-info w-100">
-            📊 Check Keepa Token Balance
-        </button>
-    </form>
-    <form asp-controller="Home" asp-action="ExtractKeepaDeals" method="post">
-        <button type="submit" class="btn btn-outline-success">
-            📦 Extract & Generate deals.json
-        </button>
-    </form>
 
 </div>
