@@ -1,7 +1,8 @@
 ﻿using OfficeOpenXml;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<YourNamespace.Services.PaapiClient>(); // <-- add this line
 // This registers services for both API and View controllers
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient<SmartSaverWeb.Services.KeepaClient>(client =>

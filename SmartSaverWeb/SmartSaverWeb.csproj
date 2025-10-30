@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>0094cdf0-03ab-4a56-8a9b-b63b54e1641e</UserSecretsId>
   </PropertyGroup>
   <Target Name="ExcludeFromPublish" BeforeTargets="CopyFilesToPublishDirectory">
     <ItemGroup>
