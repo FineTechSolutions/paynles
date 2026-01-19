@@ -83,6 +83,8 @@ app.UseSession();
 app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
 app.UseAuthorization();
+app.MapControllers(); // For API controllers
+
 // 🔁 Backward compatibility redirect for Chrome extension
 app.MapGet("/MyProducts", (HttpContext ctx) =>
 {
@@ -111,6 +113,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
-app.MapControllers(); // For API controllers
 
 app.Run();
