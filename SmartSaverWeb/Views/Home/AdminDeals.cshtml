@@ -21,6 +21,14 @@
             📦 Extract & Generate deals.json
         </button>
     </form>
+    <form method="post">
+        <div class="mb-3">
+            <label for="EmailInput" class="form-label">Email address</label>
+            <input type="text" id="EmailInput" name="Email" class="form-control" placeholder="user@example.com" />
+        </div>
+        <button type="submit" asp-page-handler="ImportByEmail" class="btn btn-primary">Import From JSON</button>
+    </form>
+
     @if (!string.IsNullOrEmpty(ViewBag.Message))
     {
         <div class="alert alert-success">@ViewBag.Message</div>

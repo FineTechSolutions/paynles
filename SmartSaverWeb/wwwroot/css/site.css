@@ -1,3 +1,53 @@
+:root {
+    --space-xxs: 4px;
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-xxl: 48px;
+}
+/* === SPACING UTILITIES: PADDING (VERTICAL) === */
+
+.py-md {
+    padding-top: var(--space-md) !important;
+    padding-bottom: var(--space-md) !important;
+}
+
+.py-lg {
+    padding-top: var(--space-lg) !important;
+    padding-bottom: var(--space-lg) !important;
+}
+
+.py-xl {
+    padding-top: var(--space-xl) !important;
+    padding-bottom: var(--space-xl) !important;
+}
+/* === SPACING UTILITIES: MARGIN (VERTICAL) === */
+
+.my-md {
+    margin-top: var(--space-md) !important;
+    margin-bottom: var(--space-md) !important;
+}
+
+.my-lg {
+    margin-top: var(--space-lg) !important;
+    margin-bottom: var(--space-lg) !important;
+}
+
+.my-xl {
+    margin-top: var(--space-xl) !important;
+    margin-bottom: var(--space-xl) !important;
+}
+/* === SPACING UTILITIES: GRID GAPS === */
+
+.gap-lg {
+    gap: var(--space-lg) !important;
+}
+.gap-sm {
+    gap: var(--space-sm) !important;
+}
+
 html {
   font-size: 14px;
 }
@@ -37,3 +87,17 @@ body {
         background-color: #e2e6ea;
         color: #000;
     }
+body {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+/* Remove default navbar spacing under sticky header */
+.navbar {
+    margin-bottom: 0 !important;
+}
+
+/* NEW: remove the first-child top spacing under the sticky navbar */
+main > *:first-child {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}

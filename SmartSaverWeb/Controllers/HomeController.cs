@@ -23,6 +23,9 @@ namespace SmartSaverWeb.Controllers
 
         // Home page
         public IActionResult Index() => View();
+        // Marketing landing page (always safe)
+        public IActionResult Landing() => View("Index");
+
 
         public IActionResult About() => View();
 

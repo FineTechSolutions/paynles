@@ -1,0 +1,19 @@
+@page
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Tracked Products";
+}
+
+<link rel="stylesheet" href="~/react/tracking/products/styles/Products.css" />
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 p-0">
+            <div id="tracking-root"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="module" src="~/react/tracking/entry-products.js"></script>
+}

@@ -43,3 +43,4 @@ node_modules/
 # Prevent App_Data under wwwroot from being tracked
 SmartSaverWeb/SmartSaverWeb/wwwroot/App_Data/
 >>>>>>> c1a61491f0a0f73c079625c39fe5693e05c715a3
+/SmartSaverWeb/Pages/TrackedGrid/Index.cshtml
