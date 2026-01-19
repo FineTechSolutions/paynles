@@ -315,47 +315,61 @@ public string? AlertMode { get; set; }
         [HttpGet("validate-user")]
         public async Task<IActionResult> ValidateUser([FromQuery] string? email)
         {
-            // --------------------------------------------------
-            // 1️⃣ If session already exists, reuse it (F5 support)
-            // --------------------------------------------------
-            var sessionUserId = HttpContext.Session.GetString("ActiveUserId");
-            var sessionEmail = HttpContext.Session.GetString("ActiveUserEmail");
-
-            if (!string.IsNullOrEmpty(sessionUserId) && !string.IsNullOrEmpty(sessionEmail))
+            try
             {
-                return Ok(new
+                // 1) Reuse existing session (refresh support)
+                var sessionUserId = HttpContext.Session.GetString("ActiveUserId");
+                var sessionEmail = HttpContext.Session.GetString("ActiveUserEmail");
+
+                if (!string.IsNullOrEmpty(sessionUserId) && !string.IsNullOrEmpty(sessionEmail))
                 {
-                    success = true,
-                    userId = sessionUserId,
-                    email = sessionEmail
+                    return Ok(new
+                    {
+                        success = true,
+                        userId = sessionUserId,
+                        email = sessionEmail
+                    });
+                }
+
+                // 2) First entry requires email
+                if (string.IsNullOrWhiteSpace(email))
+                    return BadRequest(new { success = false, error = "Email is required." });
+
+                // 3) DB lookup
+                var user = await _db.Users
+                    .Where(u => u.Email == email)
+                    .Select(u => new { u.UserId, u.IsActive })
+                    .FirstOrDefaultAsync();
+
+                if (user == null)
+                    return NotFound(new { success = false, error = "Invalid email address." });
+
+                if (!user.IsActive)
+                    return Unauthorized(new { success = false, error = "User is not authorized yet." });
+
+                // 4) Establish session
+                HttpContext.Session.SetString("ActiveUserId", user.UserId.ToString());
+                HttpContext.Session.SetString("ActiveUserEmail", email);
+
+                return Ok(new { success = true, userId = user.UserId, email });
+            }
+            catch (Exception ex)
+            {
+                // TEMP diagnostics: shows up in Azure Log Stream
+                Console.WriteLine("❌ ValidateUser crashed");
+                Console.WriteLine(ex.ToString());
+
+                // TEMP diagnostics: return JSON so React/DevTools can see the real error
+                return StatusCode(500, new
+                {
+                    success = false,
+                    error = "ValidateUser failed",
+                    type = ex.GetType().Name,
+                    message = ex.Message
                 });
             }
-
-            // --------------------------------------------------
-            // 2️⃣ No session yet → require email (first entry)
-            // --------------------------------------------------
-            if (string.IsNullOrWhiteSpace(email))
-                return BadRequest("Email is required.");
-
-            var user = await _db.Users
-                .Where(u => u.Email == email)
-                .Select(u => new { u.UserId, u.IsActive })
-                .FirstOrDefaultAsync();
-
-            if (user == null)
-                return NotFound("Invalid email address.");
-
-            if (!user.IsActive)
-                return Unauthorized("User is not authorized yet.");
-
-            // --------------------------------------------------
-            // 3️⃣ Establish session
-            // --------------------------------------------------
-            HttpContext.Session.SetString("ActiveUserId", user.UserId.ToString());
-            HttpContext.Session.SetString("ActiveUserEmail", email);
-
-            return Ok(new { success = true, userId = user.UserId });
         }
+
 
 
         // 🔹 Dispose selected items (set ToDelete = 1 and DateMarkedToDelete)
