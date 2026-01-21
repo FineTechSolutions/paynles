@@ -318,10 +318,14 @@ public string? AlertMode { get; set; }
             try
             {
                 // 1) Reuse existing session (refresh support)
+                // 1️⃣ Session reuse / account switching logic
                 var sessionUserId = HttpContext.Session.GetString("ActiveUserId");
                 var sessionEmail = HttpContext.Session.GetString("ActiveUserEmail");
 
-                if (!string.IsNullOrEmpty(sessionUserId) && !string.IsNullOrEmpty(sessionEmail))
+                // Case A: Refresh (no email in URL) → reuse session
+                if (string.IsNullOrWhiteSpace(email) &&
+                    !string.IsNullOrEmpty(sessionUserId) &&
+                    !string.IsNullOrEmpty(sessionEmail))
                 {
                     return Ok(new
                     {
@@ -330,6 +334,22 @@ public string? AlertMode { get; set; }
                         email = sessionEmail
                     });
                 }
+
+                // Case B: Email in URL matches session → reuse session
+                if (!string.IsNullOrWhiteSpace(email) &&
+                    !string.IsNullOrEmpty(sessionEmail) &&
+                    string.Equals(email, sessionEmail, StringComparison.OrdinalIgnoreCase))
+                {
+                    return Ok(new
+                    {
+                        success = true,
+                        userId = sessionUserId,
+                        email = sessionEmail
+                    });
+                }
+
+                // Otherwise: email is different → fall through and switch account
+
 
                 // 2) First entry requires email
                 if (string.IsNullOrWhiteSpace(email))

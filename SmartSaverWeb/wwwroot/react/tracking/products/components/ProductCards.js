@@ -2,6 +2,7 @@
 import mockProducts from "../api/MockData.js";
 import { MessageCircle } from "https://esm.sh/lucide-react@0.395.0";
 import { Eye, Pencil, Share2, LineChart, Tag, Trash2 }
+
     from "https://esm.sh/lucide-react@0.395.0";
 // BEGIN INSERT: Dialog import
 import { DeleteDialog } from "./ProductDialogs.js";
@@ -19,7 +20,6 @@ import { CommentsDialog } from "./ProductDialogs.js";
 // BEGIN INSERT: PriceHistoryDialog import
 import { PriceHistoryDialog } from "./ProductDialogs.js";
 // END INSERT
-
 // BEGIN INSERT: AlertDialog import
 import { AlertDialog } from "./ProductDialogs.js";
 // END INSERT
@@ -252,13 +252,15 @@ export default function ProductCards({ products }) {
                                 React.createElement("img", {
                                     src: imageSrc,
                                     alt: product.title,
-                                    loading: "lazy"
+                                    loading: "lazy",
+                                    className: "product-image"
                                 })
                             )
                             : React.createElement("img", {
                                 src: imageSrc,                       // Fallback: image without link
                                 alt: product.title,
-                                loading: "lazy"
+                                loading: "lazy",
+                                className: "product-image"
                             })
                     ),
                     React.createElement(
