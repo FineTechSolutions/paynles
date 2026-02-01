@@ -32,7 +32,8 @@ import { DetailsDialog } from "./ProductDialogs.js";
 let deleteDialogProduct = null;
 // BEGIN INSERT: Share dialog state
 let shareDialogProduct = null;
-
+// Local mutable product list for instant UI updates (no reload)
+let currentProducts = [];
 function openShareDialog(product) {
     shareDialogProduct = product;
     rerender();
@@ -99,8 +100,8 @@ function addProductComment(asin, commentText) {
 // END INSERT
 
 function openDeleteDialog(product) {
-    deleteDialogProduct = product;
-    rerender(); // re-render the UI
+    // Direct delete without confirmation dialog
+    handleDelete(product.productId); // call delete immediately
 }
 
 function closeDeleteDialog() {
@@ -175,8 +176,28 @@ function closeDetailsDialog() {
     rerender();
 }
 // END INSERT
+async function handleDelete(productId) {
+    try {
+        // Call backend delete endpoint
+        const res = await fetch("/api/trackedgrid/products/delete", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ productId }) // API contract
+        });
 
-export default function ProductCards({ products }) {
+        if (!res.ok) throw new Error("Delete failed");
+
+        // Remove locally (no reload)
+        currentProducts = currentProducts.filter(p => p.productId !== productId);
+        rerender();
+
+    } catch (err) {
+        console.error("Delete failed:", err); // debug only
+    }
+}
+
+export default function ProductCards({ products })   {
     //// BEGIN INSERT: local product list state
     //if (!window.productCards_state) {
     //    window.productCards_state = mockProducts.slice(); // clone
@@ -188,9 +209,11 @@ export default function ProductCards({ products }) {
     // BEGIN REPLACE RETURN BLOCK
     // ====================================
     // TEMP: use real products from App.js (mock restored later)
-    let currentProducts = Array.isArray(products)
-        ? products.map(normalizeProduct)
-        : [];
+    // Initialize local list once from props
+    if (currentProducts.length === 0 && Array.isArray(products)) {
+        currentProducts = products.map(normalizeProduct);
+    }
+
 
     return React.createElement(
         "div",
@@ -383,19 +406,8 @@ export default function ProductCards({ products }) {
             })
         ),
 
-        // DIALOG (ONE INSTANCE ONLY)
-        React.createElement(DeleteDialog, {
-            open: deleteDialogProduct !== null,
-            onClose: closeDeleteDialog,
-            onConfirm: asin => {
-                currentProducts = removeProductFromList(asin, currentProducts);
-                rerender();
-            },
-            product: deleteDialogProduct
-        })
-
         // BEGIN INSERT: ShareDialog render
-        ,
+     
         React.createElement(ShareDialog, {
             open: shareDialogProduct !== null,
             onClose: closeShareDialog,

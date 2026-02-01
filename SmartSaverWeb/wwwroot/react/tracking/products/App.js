@@ -167,6 +167,15 @@ export default function ProductsApp() {
     return React.createElement(
         "div",
         { className: "products-wrapper" },
+
+        // Header with item count
+        React.createElement(
+            "h3",
+            null,
+            `My Tracked Items (${products.length})` // dynamic count
+        ),
+
         React.createElement(ProductCards, { products })
     );
+
 }

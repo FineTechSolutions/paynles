@@ -312,6 +312,10 @@ public string? AlertMode { get; set; }
             public string? ColorCode { get; set; }
             public string? Description { get; set; }
         }
+        public class DeleteProductRequest
+        {
+            public Guid ProductId { get; set; }
+        }
         [HttpGet("validate-user")]
         public async Task<IActionResult> ValidateUser([FromQuery] string? email)
         {
@@ -389,6 +393,72 @@ public string? AlertMode { get; set; }
                 });
             }
         }
+
+        // --------------------------------------------------------
+        // POST /api/trackedgrid/products/delete
+        // Deletes a single tracked product by ProductId (GUID)
+        // --------------------------------------------------------
+        [HttpPost("products/delete")]
+        public async Task<IActionResult> DeleteProduct([FromBody] DeleteProductRequest req)
+        {
+            try
+            {
+                // 1️⃣ Validate request
+                if (req == null || req.ProductId == Guid.Empty)
+                    return BadRequest("Invalid ProductId.");
+
+                // 2️⃣ Require validated session
+                var sessionUserId = HttpContext.Session.GetString("ActiveUserId");
+                if (string.IsNullOrEmpty(sessionUserId))
+                    return Unauthorized("User session not found.");
+
+                if (!Guid.TryParse(sessionUserId, out var userId))
+                    return Unauthorized("Invalid session user ID.");
+
+                // 3️⃣ Find product owned by this user
+                var product = await _db.TrackedProducts
+                    .Where(p =>
+                        p.ProductId == req.ProductId &&
+                        p.UserId == userId &&
+                        p.IsActive &&
+                        !p.ToDelete)
+                    .FirstOrDefaultAsync();
+
+                if (product == null)
+                    return NotFound("Tracked product not found.");
+
+                // 4️⃣ Soft delete
+                product.ToDelete = true;
+                product.DateMarkedToDelete = DateTime.UtcNow;
+
+                try
+{
+                    await _db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+            {
+                Console.WriteLine("❌ SaveChanges failed");
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
+            return Ok(new { success = true, productId = req.ProductId });
+            }
+            catch (Exception ex)
+            {
+                // 🔥 TEMP: dump full exception to console + response
+                Console.WriteLine("❌ DeleteProduct failed");
+                Console.WriteLine(ex.ToString());
+
+                return StatusCode(500, new
+                {
+                    success = false,
+                    error = "DeleteProduct failed",
+                    type = ex.GetType().Name,
+                    message = ex.Message
+                });
+            }
+        }
+
 
 
 

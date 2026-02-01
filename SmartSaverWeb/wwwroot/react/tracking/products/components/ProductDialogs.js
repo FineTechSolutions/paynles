@@ -52,8 +52,8 @@ export function DeleteDialog({ open, onClose, onConfirm, product }) {
                     {
                         className: "modal-btn delete-btn",
                         onClick: () => {
-                            onConfirm(product.asin);
-                            onClose();
+                            onConfirm(product.productId); // pass GUID instead of ASIN
+                            onClose();                    // close dialog immediately
                         }
                     },
                     "Delete"

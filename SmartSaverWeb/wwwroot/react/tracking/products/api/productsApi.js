@@ -62,7 +62,14 @@ export async function validateUser(email) {
 export async function getTrackedProducts() {
     return requestJson("/api/trackedgrid/products");
 }
-
+// POST /api/trackedgrid/products/delete
+export async function deleteTrackedProduct(productId) {
+    return requestJson("/api/trackedgrid/products/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId }) // must match backend DTO
+    });
+}
 /**
  * Optional: If you later add endpoints like:
  * GET /api/trackedgrid/products/{productId}/notifications
