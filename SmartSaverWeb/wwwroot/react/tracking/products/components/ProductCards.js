@@ -210,6 +210,7 @@ export default function ProductCards({ products })   {
     // ====================================
     // TEMP: use real products from App.js (mock restored later)
     // Initialize local list once from props
+    //list once from props
     if (currentProducts.length === 0 && Array.isArray(products)) {
         currentProducts = products.map(normalizeProduct);
     }

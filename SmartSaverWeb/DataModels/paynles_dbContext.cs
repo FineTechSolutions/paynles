@@ -230,11 +230,15 @@ public partial class paynles_dbContext : DbContext
             entity.Property(e => e.DateMarkedToDelete)
                 .HasDefaultValueSql("(sysutcdatetime())")
                 .HasAnnotation("Relational:DefaultConstraintName", "DF_TrackedProducts_DateMarkedToDelete");
+            entity.Property(e => e.DatePriceChecked)
+                .HasDefaultValueSql("(sysutcdatetime())")
+                .HasAnnotation("Relational:DefaultConstraintName", "DF_TrackedProducts_DateProceChecked");
             entity.Property(e => e.GroupId).HasDefaultValueSql("(newid())");
             entity.Property(e => e.IsActive)
                 .HasDefaultValue(true)
                 .HasAnnotation("Relational:DefaultConstraintName", "DF__TrackedPr__IsAct__778AC167");
             entity.Property(e => e.Keep).HasAnnotation("Relational:DefaultConstraintName", "DF_TrackedProducts_Keep");
+            entity.Property(e => e.PriceDays).HasDefaultValue(365);
             entity.Property(e => e.TimestampUtc)
                 .HasDefaultValueSql("(sysutcdatetime())")
                 .HasAnnotation("Relational:DefaultConstraintName", "DF__TrackedPr__Times__76969D2E");

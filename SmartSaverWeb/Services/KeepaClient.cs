@@ -78,6 +78,30 @@ namespace SmartSaverWeb.Services
         }
 
         // ---------- Helpers ----------
+        public async Task<int> GetTokenBalanceForInternalUseAsync()
+        {
+            string apiKey = _config["Keepa:ApiKey"]
+                ?? throw new Exception("Keepa key missing");
+
+            string url = $"https://api.keepa.com/token?key={apiKey}";
+
+            using var response = await _http.GetAsync(url);
+            var json = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Keepa token check failed: {response.StatusCode} — {json}");
+            }
+
+            using var doc = JsonDocument.Parse(json);
+
+            if (!doc.RootElement.TryGetProperty("tokensLeft", out var tokens))
+            {
+                throw new Exception("tokensLeft not found in Keepa response");
+            }
+
+            return tokens.GetInt32();
+        }
 
         private static decimal ToMoney(int? cents) =>
             (cents.HasValue && cents.Value > 0) ? cents.Value / 100m : 0m;

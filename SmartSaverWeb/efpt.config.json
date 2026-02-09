@@ -69,6 +69,10 @@
       {
          "Name": "[dbo].[Users]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[stp_ProductNotifications_GetSendQueue]",
+         "ObjectType": 1
       }
    ],
    "UiHint": null,

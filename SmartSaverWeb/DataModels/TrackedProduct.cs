@@ -66,6 +66,22 @@ public partial class TrackedProduct
 
     public DateTime DateMarkedToDelete { get; set; }
 
+    public DateTime DatePriceChecked { get; set; }
+
+    [Column(TypeName = "decimal(10, 2)")]
+    public decimal? ListPrice { get; set; }
+
+    [Column(TypeName = "decimal(10, 2)")]
+    public decimal? PriceAverage { get; set; }
+
+    [Column(TypeName = "decimal(10, 2)")]
+    public decimal? PriceHighest { get; set; }
+
+    [Column(TypeName = "decimal(10, 2)")]
+    public decimal? PriceLowest { get; set; }
+
+    public int PriceDays { get; set; }
+
     [InverseProperty("Product")]
     public virtual ICollection<HashtagProductLink> HashtagProductLinks { get; set; } = new List<HashtagProductLink>();
 

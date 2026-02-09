@@ -1,0 +1,283 @@
+/* ===== Page shell ===== */
+.internal-notifications {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    padding: 20px;
+    background: #f3f4f6;
+}
+
+/* ===== Two-column layout ===== */
+.notifications-layout {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: 20px;
+    height: calc(100vh - 80px);
+}
+
+/* ===== LEFT: Cards panel ===== */
+.notifications-list {
+    background: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    padding: 14px;
+    overflow-y: auto;
+}
+
+    .notifications-list h3 {
+        margin: 0 0 12px 0;
+        font-size: 15px;
+    }
+
+/* ===== Notification card ===== */
+.notification-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px 14px;
+    cursor: pointer;
+    background: #ffffff;
+    transition: all 0.15s ease;
+}
+
+    .notification-card + .notification-card {
+        margin-top: 10px;
+    }
+
+    .notification-card:hover {
+        border-color: #9ca3af;
+        background: #f9fafb;
+    }
+
+    .notification-card.selected {
+        border-color: #2563eb;
+        background: #eff6ff;
+        box-shadow: 0 0 0 1px #2563eb inset;
+    }
+
+    .notification-card .title {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 6px;
+        line-height: 1.3;
+    }
+
+    .notification-card .meta {
+        font-size: 12px;
+        color: #374151;
+        margin-bottom: 4px;
+    }
+
+    .notification-card .rule {
+        font-size: 11px;
+        color: #6b7280;
+    }
+
+}
+/* ===============================
+   EMAIL DESIGN
+================================ */
+
+.email-preview {
+    background: #eef0f3;
+    padding: 24px;
+}
+
+.email-canvas {
+    max-width: 560px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    color: #111;
+}
+
+/* Header */
+.email-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #fafafa;
+    border-radius: 10px 10px 0 0;
+}
+
+.email-to {
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 6px;
+}
+
+.email-subject {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* Body */
+.email-content {
+    padding: 24px 20px;
+}
+
+    .email-content h2 {
+        font-size: 18px;
+        margin: 0 0 12px 0;
+    }
+
+    .email-content p {
+        font-size: 14px;
+        line-height: 1.6;
+        margin: 10px 0;
+        color: #374151;
+    }
+
+/* Price highlight */
+.price-box {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin: 18px 0;
+    padding: 14px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+.price-old {
+    text-decoration: line-through;
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+.price-new {
+    font-size: 20px;
+    font-weight: 700;
+    color: #16a34a;
+}
+
+/* Footer note */
+.email-footnote {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 24px;
+}
+/* ===============================
+   PRODUCT BLOCK (EMAIL)
+================================ */
+
+.product-block {
+    display: flex;
+    gap: 16px;
+    margin: 16px 0 20px 0;
+    align-items: flex-start;
+}
+
+.product-image {
+    width: 110px;
+    height: 110px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+    .product-image img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+.image-placeholder {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+/* Product info */
+.product-info {
+    flex: 1;
+}
+
+.product-title {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+
+/* CTA button (read-only) */
+.cta-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 16px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: default;
+    user-select: none;
+    text-align: center;
+    width: fit-content;
+}
+
+    /* Prevent hover implying click */
+    .cta-button:hover {
+        background: #2563eb;
+    }
+/* ===============================
+   DAILY DIGEST EMAIL
+================================ */
+
+.digest-intro {
+    margin-bottom: 18px;
+    font-size: 14px;
+    color: #374151;
+}
+
+/* List of products */
+.digest-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Each product row */
+.digest-item {
+    display: flex;
+    gap: 14px;
+    padding: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fafafa;
+}
+
+    .digest-item .product-image {
+        width: 90px;
+        height: 90px;
+    }
+
+    .digest-item .product-title {
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.4;
+        margin-bottom: 8px;
+    }
+
+    .digest-item .price-box {
+        margin: 8px 0;
+    }
+
+    /* Make CTA smaller in digest */
+    .digest-item .cta-button {
+        padding: 8px 14px;
+        font-size: 12px;
+    }
+.notifications-list h3 {
+    font-size: 14px;
+    color: #111827;
+    margin-bottom: 12px;
+}
+.cta-button.disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    opacity: 0.7;
+    text-decoration: none;
+}

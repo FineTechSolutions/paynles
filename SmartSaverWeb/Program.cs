@@ -14,6 +14,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<YourNamespace.Services.PaapiClient>(); // <-- add this line
+
 // This registers services for both API and View controllers
 builder.Services.AddTransient<Paynles.Services.ProductFileImporter>();
 builder.Services.AddTransient<ProductFileImporter>();  // in the service registrations
@@ -27,7 +28,10 @@ builder.Services.AddHttpClient<SmartSaverWeb.Services.KeepaClient>(client =>
 {
     AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
 });
-
+// ============================
+// Pricing / Keepa services
+// ============================
+builder.Services.AddScoped<SmartSaverWeb.Services.Pricing.Keepa.KeepaPriceUpdateService>();
 builder.Services.AddRazorPages();
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
